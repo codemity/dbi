@@ -94,6 +94,7 @@ Options for C (cJSON)
  --enumerator-style pascal-case|underscore-case|camel-       Naming style for enumerators                               
  case|upper-underscore-case|pascal-case-upper-                                                                          
  acronyms|camel-case-upper-acronyms                                                                                     
+ --[no-]header-only                                          Generate headers only (on by default)                      
 
 Options for C++
 
@@ -118,7 +119,7 @@ Options for C++
  case|camel-case|upper-underscore-case|pascal-case-upper-                                                               
  acronyms|camel-case-upper-acronyms                                                                                     
  --[no-]boost                                                Require a dependency on boost. Without boost, C++17 is     
-                                                             required (on by default)                                   
+                                                             required (off by default)                                  
  --[no-]hide-null-optional                                   Hide null value for optional field (off by default)        
 
 Options for C#
@@ -127,7 +128,7 @@ Options for C#
  --array-type array|list                                     Use T[] or List<T>                                         
  --density normal|dense                                      Property density                                           
  --namespace NAME                                            Generated namespace                                        
- --csharp-version 5|6                                        C# version                                                 
+ --csharp-version 5|6|8                                      C# version                                                 
  --[no-]virtual                                              Generate virtual properties (off by default)               
  --any-type object|dynamic                                   Type to use for "any"                                      
  --number-type double|decimal                                Type to use for numbers                                    
@@ -136,15 +137,16 @@ Options for C#
  --base-class EntityData|Object                              Base class                                                 
  --[no-]check-required                                       Fail if required properties are missing (off by default)   
  --[no-]keep-property-name                                   Keep original field name generate (off by default)         
+ --[no-]dateonly-timeonly-converters                         Emit DateOnly/TimeOnly converters (requires .NET 6 or      
+                                                             later) (on by default)                                     
 
 Options for Dart
 
- --[no-]null-safety                                          Null Safety (on by default)                                
  --[no-]just-types                                           Types only (off by default)                                
  --[no-]coders-in-class                                      Put encoder & decoder in Class (off by default)            
  --[no-]from-map                                             Use method names fromMap() & toMap() (off by default)      
  --[no-]required-props                                       Make all properties required (off by default)              
- --[no-]final-props                                          Make all properties final (off by default)                 
+ --[no-]final-props                                          Make all properties final (on by default)                  
  --[no-]copy-with                                            Generate CopyWith method (off by default)                  
  --[no-]use-freezed                                          Generate class definitions with @freezed compatibility     
                                                              (off by default)                                           
@@ -177,11 +179,13 @@ Options for Flow
  --[no-]nice-property-names                                  Transform property names to be JavaScripty (off by         
                                                              default)                                                   
  --[no-]explicit-unions                                      Explicitly name unions (off by default)                    
- --[no-]prefer-unions                                        Use union type instead of enum (off by default)            
+ --[no-]prefer-unions                                        Use union type instead of enum (on by default)             
  --[no-]prefer-types                                         Use types instead of interfaces (off by default)           
  --[no-]prefer-const-values                                  Use string instead of enum for string enums with single    
                                                              value (off by default)                                     
  --[no-]readonly                                             Use readonly type members (off by default)                 
+ --[no-]prefer-unknown                                       Use unknown (TypeScript) or mixed (Flow) instead of any    
+                                                             (on by default)                                            
 
 Options for Go
 
@@ -250,7 +254,7 @@ Options for PHP
 
 Options for Python
 
- --python-version 3.5|3.6|3.7                                Python version                                             
+ --python-version 3.5|3.6|3.7|3.9|3.10                       Python version                                             
  --[no-]just-types                                           Classes only (off by default)                              
  --[no-]nice-property-names                                  Transform property names to be Pythonic (on by default)    
  --[no-]pydantic-base-model                                  Uses pydantic BaseModel (off by default)                   
@@ -265,11 +269,11 @@ Options for Rust
 
  --density normal|dense                                      Density                                                    
  --visibility private|crate|public                           Field visibility                                           
- --[no-]derive-debug                                         Derive Debug impl (off by default)                         
- --[no-]derive-clone                                         Derive Clone impl (off by default)                         
+ --integer-type conservative|force-i32|force-i64             Integer type inference                                     
+ --[no-]derive-debug                                         Derive Debug impl (on by default)                          
+ --[no-]derive-clone                                         Derive Clone impl (on by default)                          
  --[no-]derive-partial-eq                                    Derive PartialEq impl (off by default)                     
  --[no-]skip-serializing-none                                Skip serializing empty Option fields (off by default)      
- --[no-]edition-2018                                         Edition 2018 (on by default)                               
  --[no-]leading-comments                                     Leading Comments (on by default)                           
 
 Options for Scala3
@@ -292,6 +296,7 @@ Options for Swift
  --[no-]alamofire                                            Alamofire extensions (off by default)                      
  --type-prefix PREFIX                                        Prefix for type names                                      
  --struct-or-class struct|class                              Structs or classes                                         
+ --[no-]final-classes                                        Mark classes as final (off by default)                     
  --[no-]mutable-properties                                   Use var instead of let for object properties (off by       
                                                              default)                                                   
  --acronym-style original|pascal|camel|lowerCase             Acronym naming style                                       
@@ -301,8 +306,6 @@ Options for Swift
                                                              classes (off by default)                                   
  --[no-]optional-enums                                       If no matching case is found enum value is set to null     
                                                              (off by default)                                           
- --[no-]swift-5-support                                      Renders output in a Swift 5 compatible mode (off by        
-                                                             default)                                                   
  --[no-]sendable                                             Mark generated models as Sendable (off by default)         
  --[no-]multi-file-output                                    Renders each top-level object in its own Swift file (off   
                                                              by default)                                                
@@ -321,11 +324,13 @@ Options for TypeScript
  --[no-]nice-property-names                                  Transform property names to be JavaScripty (off by         
                                                              default)                                                   
  --[no-]explicit-unions                                      Explicitly name unions (off by default)                    
- --[no-]prefer-unions                                        Use union type instead of enum (off by default)            
+ --[no-]prefer-unions                                        Use union type instead of enum (on by default)             
  --[no-]prefer-types                                         Use types instead of interfaces (off by default)           
  --[no-]prefer-const-values                                  Use string instead of enum for string enums with single    
                                                              value (off by default)                                     
  --[no-]readonly                                             Use readonly type members (off by default)                 
+ --[no-]prefer-unknown                                       Use unknown (TypeScript) or mixed (Flow) instead of any    
+                                                             (on by default)                                            
 
 Examples
 
